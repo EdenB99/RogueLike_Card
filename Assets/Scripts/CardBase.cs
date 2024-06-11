@@ -29,7 +29,7 @@ public class CardBase : ScriptableObject
     public CardType Type;
     public Sprite Image;
 
-    public virtual void Play(Player player, Enemy enemy)
+    public virtual void Play(Enemy enemy)
     {
 
     }
