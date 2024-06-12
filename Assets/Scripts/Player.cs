@@ -46,6 +46,19 @@ public class Player : MonoBehaviour
     }
     Action<int> OnArmorBreak;
 
+
+    private int energy;
+    public int Energy
+    {
+        get => energy;
+        set
+        {
+            energy = value;
+            OnEnergyChange?.Invoke(energy);
+        }
+    }
+    Action<int> OnEnergyChange;
+
     //-------------------------------------------------------------------------------
     //플레이어 애니메이션 요소
 
@@ -86,5 +99,12 @@ public class Player : MonoBehaviour
                 animator.SetTrigger(state.ToString());
             }
         }
+    }
+
+
+
+    private void Awake()
+    {
+        OnArmorBreak += (leftDamage) => Health -= leftDamage;
     }
 }
