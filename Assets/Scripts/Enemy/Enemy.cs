@@ -1,7 +1,9 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 
 public class Enemy : MonoBehaviour
@@ -49,7 +51,6 @@ public class Enemy : MonoBehaviour
 
 
     private Animator animator;
-    CharacterController controller;
 
     /// <summary>
     /// 애니메이션 상태
@@ -83,10 +84,14 @@ public class Enemy : MonoBehaviour
     //------------------------------------------------------------------------------------------
     //패턴 요소
 
+    private SpriteRenderer PatternImage;
+    private TextMeshProUGUI PatternText;
+
     /// <summary>
     /// 에디터에서 추가한 적 패턴의 리스트 
     /// </summary>
     public List<EnemyPattern> patterns;
+
 
     public bool ExcutePattern(int patternIndex)
     {
@@ -107,6 +112,25 @@ public class Enemy : MonoBehaviour
         return isPattern;
     }
     
+    private void ShowPatterUI(int patternIndex)
+    {
+        EnemyPattern enemyPattern = patterns[patternIndex];
+        PatternImage.sprite = enemyPattern.patternImage;
+        switch (enemyPattern.patternType)
+        {
+            case PatternType.Damage:
+                DamagePattern damagePattern = enemyPattern as DamagePattern;
+                if (damagePattern != null )
+                {
+                    PatternText.text = damagePattern.CurrentDamage.ToString();
+                }
+                break;
+            default:
+                PatternText.text = null;
+                break;
+        }
+        //패턴 UI을 구성하고 보여줄 곳
+    }
 
     //------------------------------------------------------------------------------------------
     //생명 주기 요소
@@ -114,11 +138,14 @@ public class Enemy : MonoBehaviour
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        
+        Transform Child = transform.GetChild(0);
+        PatternImage = Child.GetChild(0).GetComponent<SpriteRenderer>();
+        PatternText = Child.GetChild(1).GetComponent<TextMeshProUGUI>();
     }
     private void Start()
     {
         OnArmorBreak += (leftDamage) => Health -= leftDamage;
+        ShowPatterUI(0);
     }
     private void Die()
     {
