@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
@@ -32,7 +33,10 @@ public class GameManager : Singleton<GameManager>
             OnTurnChange?.Invoke(turn);
         }
     }
-    Action<int> OnTurnChange;
+    public Action<int> OnTurnChange;
+    public Action OnTurnStart;
+    public Action OnTurnEnd;
+   
     public void StartBattle()
     {
         turn = 0;
@@ -43,10 +47,44 @@ public class GameManager : Singleton<GameManager>
     }
     public void TurnStart()
     {
-        Turn++;
+        OnTurnStart?.Invoke();
     }
     public void TurnEnd() 
     {
-
+        OnTurnEnd?.Invoke();
     }
+    //------------------------------------------------------------------------------------------
+    //테스트 요소
+    TestInput TestInput;
+    //------------------------------------------------------------------------------------------
+    //생명 주기
+    
+    private void OnEnable()
+    {
+        TestInput.Test.Enable();
+        TestInput.Test.Test1.performed += OnTest1;
+        TestInput.Test.Test2.performed += ONTest2;
+    }
+    private void OnDisable()
+    {
+        TestInput.Test.Test2.performed -= ONTest2;
+        TestInput.Test.Test1.performed -= OnTest1;
+        TestInput.Test.Disable();
+    }
+    private void Start()
+    {
+        TestInput = new TestInput();
+        
+    }
+
+
+    private void OnTest1(InputAction.CallbackContext context)
+    {
+        TurnStart();
+    }
+    private void ONTest2(InputAction.CallbackContext context)
+    {
+        TurnEnd();
+    }
+
 }

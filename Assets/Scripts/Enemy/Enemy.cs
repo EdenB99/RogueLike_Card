@@ -84,68 +84,48 @@ public class Enemy : MonoBehaviour
     //------------------------------------------------------------------------------------------
     //패턴 요소
 
-    private SpriteRenderer PatternImage;
-    private TextMeshProUGUI PatternText;
-
+    Pattern PatternObject;
     /// <summary>
     /// 에디터에서 추가한 적 패턴의 리스트 
     /// </summary>
     public List<EnemyPattern> patterns;
 
+    /// <summary>
+    /// 패턴을 설정하는 함수
+    /// </summary>
+    public void SetPattern()
+    {
+        PatternObject.SetPattern(patterns[0], AdditionalDamage);
+    }
 
-    public bool ExcutePattern(int patternIndex)
+    /// <summary>
+    /// 패턴을 실행하는 함수
+    /// </summary>
+    /// <param name="patternIndex"></param>
+    /// <returns></returns>
+    public void ExcutePattern()
     {
-        bool isPattern = false;
-        if (patternIndex >= 0 && patternIndex < patterns.Count)
-        {
-            if (patterns[patternIndex].ShouldExecute(this))
-            {
-                patterns[patternIndex].Execute(this);
-                patterns[patternIndex].Animate(animator);
-                isPattern = true;
-            }
-        }else
-        {
-            Debug.Log("패턴 미실행");
-            isPattern = false;
-        }
-        return isPattern;
+        
     }
-    
-    private void ShowPatterUI(int patternIndex)
-    {
-        EnemyPattern enemyPattern = patterns[patternIndex];
-        PatternImage.sprite = enemyPattern.patternImage;
-        switch (enemyPattern.patternType)
-        {
-            case PatternType.Damage:
-                DamagePattern damagePattern = enemyPattern as DamagePattern;
-                if (damagePattern != null )
-                {
-                    PatternText.text = damagePattern.CurrentDamage.ToString();
-                }
-                break;
-            default:
-                PatternText.text = null;
-                break;
-        }
-        //패턴 UI을 구성하고 보여줄 곳
-    }
+   
 
     //------------------------------------------------------------------------------------------
     //생명 주기 요소
 
+
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
-        Transform Child = transform.GetChild(0);
-        PatternImage = Child.GetChild(0).GetComponent<SpriteRenderer>();
-        PatternText = Child.GetChild(1).GetComponent<TextMeshProUGUI>();
+        PatternObject = GetComponentInChildren<Pattern>(); 
     }
     private void Start()
     {
         OnArmorBreak += (leftDamage) => Health -= leftDamage;
-        ShowPatterUI(0);
+        
+
+        GameManager.Instance.OnTurnStart += SetPattern;
+        GameManager.Instance.OnTurnEnd += ExcutePattern;
     }
     private void Die()
     {

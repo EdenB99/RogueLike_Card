@@ -15,7 +15,7 @@ public class TurnBasedPattern : EnemyPattern
     public override void Execute(Enemy enemy)
     {
         // 패턴 실행 로직
-        Debug.Log($"Executing {patternName} because turn is {GameManager.Instance.Turn}");
+        Debug.Log($"Executing {this} because turn is {GameManager.Instance.Turn}");
     }
 
     public override void Animate(Animator animator)

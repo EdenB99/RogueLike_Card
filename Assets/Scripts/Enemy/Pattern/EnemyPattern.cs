@@ -11,8 +11,7 @@ public enum PatternType
 
 }
 public class EnemyPattern : ScriptableObject {
-
-    public string patternName;
+    public int DamageAmount;
     public Sprite patternImage;
     public string patternText;
     public PatternType patternType;

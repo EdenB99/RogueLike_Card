@@ -15,7 +15,7 @@ public class HealthBasedPattern : EnemyPattern
     public override void Execute(Enemy enemy)
     {
         // 패턴 실행 로직
-        Debug.Log($"Executing {patternName} because health is {enemy.Health}");
+        Debug.Log($"Executing {this} because health is {enemy.Health}");
     }
 
     public override void Animate(Animator animator)

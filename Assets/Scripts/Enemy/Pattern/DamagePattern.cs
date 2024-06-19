@@ -5,7 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "DamagePattern", menuName = "EnemyPatterns/DamagePattern")]
 public class DamagePattern : EnemyPattern
 {
-    public int DamageAmount;
     [HideInInspector]
     public int CurrentDamage;
 
