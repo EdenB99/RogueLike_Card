@@ -18,8 +18,4 @@ public class TurnBasedPattern : EnemyPattern
         Debug.Log($"Executing {this} because turn is {GameManager.Instance.Turn}");
     }
 
-    public override void Animate(Animator animator)
-    {
-        animator.SetTrigger("TurnBased");
-    }
 }

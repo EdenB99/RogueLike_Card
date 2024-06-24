@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 4932019382728980682}
   - component: {fileID: 5300309897178828173}
   - component: {fileID: 4078357586526249964}
+  - component: {fileID: 7836200257463539729}
   m_Layer: 0
   m_Name: Warrior
   m_TagString: Untagged
@@ -106,3 +107,15 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &7836200257463539729
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1519694773709865016}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9d346c6dc49a03743b0d685ce19f0d8d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

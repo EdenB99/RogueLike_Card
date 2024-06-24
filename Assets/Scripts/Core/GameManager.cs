@@ -59,8 +59,10 @@ public class GameManager : Singleton<GameManager>
     //------------------------------------------------------------------------------------------
     //생명 주기
     
+    
     private void OnEnable()
     {
+        TestInput = new TestInput();
         TestInput.Test.Enable();
         TestInput.Test.Test1.performed += OnTest1;
         TestInput.Test.Test2.performed += ONTest2;
@@ -74,7 +76,7 @@ public class GameManager : Singleton<GameManager>
     private void Start()
     {
         TestInput = new TestInput();
-        
+        OnInitialize();
     }
 
 

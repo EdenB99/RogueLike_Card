@@ -18,8 +18,4 @@ public class HealthBasedPattern : EnemyPattern
         Debug.Log($"Executing {this} because health is {enemy.Health}");
     }
 
-    public override void Animate(Animator animator)
-    {
-        animator.SetTrigger("HealthBased");
-    }
 }

@@ -14,8 +14,5 @@ public class DebuffPattern : EnemyPattern
         Debug.Log($"Player receives {Debuff} debuff.");
     }
 
-    public override void Animate(Animator animator)
-    {
-        animator.SetTrigger("Debuff");
-    }
+
 }

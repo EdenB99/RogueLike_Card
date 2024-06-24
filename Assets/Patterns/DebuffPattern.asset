@@ -12,7 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe8705625d82c9e4d8b40c03e5b3a309, type: 3}
   m_Name: DebuffPattern
   m_EditorClassIdentifier: 
-  patternName: asdfa
-  patternImage: {fileID: 0}
-  patternText: 
+  DamageAmount: 23
+  patternImage: {fileID: 21300000, guid: 9c63d6a9ca485ec489eb598b0edc441f, type: 3}
+  patternType: 0
+  AnimationState: 0
   Debuff: 

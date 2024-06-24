@@ -16,8 +16,4 @@ public class DamagePattern : EnemyPattern
         Debug.Log($"Player takes{CurrentDamage} damage.");
     }
 
-    public override void Animate(Animator animator)
-    {
-        animator.SetTrigger("Attack");
-    }
 }
