@@ -143,7 +143,7 @@ public class Enemy : MonoBehaviour
         
         Vector3 originalPosition = transform.position;
         Player player = GameManager.Instance.Player;
-        Vector3 AttackPosition = player.transform.position + new Vector3(0.5f, 0.0f, 0.0f);
+        Vector3 AttackPosition = player.transform.position + new Vector3(0.6f, 0.0f, 0.0f);
         float moveDuration = 0.5f;
         yield return StartCoroutine(MoveToPosition(AttackPosition, moveDuration)); //플레이어 앞으로 이동
         yield return StartCoroutine(PatternObject.FadeOutEffect());

@@ -149,7 +149,7 @@ RectTransform:
   m_GameObject: {fileID: 142137506}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.05, y: 0.05, z: 0.05}
+  m_LocalScale: {x: 0.050000004, y: 0.050000004, z: 0.05}
   m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 1019131348}
@@ -312,7 +312,7 @@ Transform:
   m_GameObject: {fileID: 342368954}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1, y: 0, z: 0}
+  m_LocalPosition: {x: 1, y: 0.36, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -335,6 +335,7 @@ MonoBehaviour:
   patterns:
   - {fileID: 11400000, guid: d1a92fb48ebc93f4e8bb24d382a7eca7, type: 2}
   - {fileID: 11400000, guid: f0867c0d7c7a3f94dbbbed74041bf8c2, type: 2}
+  LastPattern: {fileID: 0}
 --- !u!1 &492598096
 GameObject:
   m_ObjectHideFlags: 0
@@ -656,14 +657,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Warrior
       objectReference: {fileID: 0}
-    - target: {fileID: 4078357586526249964, guid: 2b1c3bd1bb14b4f488c12a546d1249e6, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: -3318188226485093758, guid: ae72133dacba6ec4eb33ecde48f50e56, type: 3}
-    - target: {fileID: 4078357586526249964, guid: 2b1c3bd1bb14b4f488c12a546d1249e6, type: 3}
-      propertyPath: m_WasSpriteAssigned
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4932019382728980682, guid: 2b1c3bd1bb14b4f488c12a546d1249e6, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1
@@ -707,28 +700,8 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 1519694773709865016, guid: 2b1c3bd1bb14b4f488c12a546d1249e6, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1647882432}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2b1c3bd1bb14b4f488c12a546d1249e6, type: 3}
---- !u!1 &1647882428 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1519694773709865016, guid: 2b1c3bd1bb14b4f488c12a546d1249e6, type: 3}
-  m_PrefabInstance: {fileID: 1294686106}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &1647882432
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647882428}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9d346c6dc49a03743b0d685ce19f0d8d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1778358720
 GameObject:
   m_ObjectHideFlags: 0
