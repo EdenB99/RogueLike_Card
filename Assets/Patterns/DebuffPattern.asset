@@ -15,5 +15,5 @@ MonoBehaviour:
   DamageAmount: 23
   patternImage: {fileID: 21300000, guid: 9c63d6a9ca485ec489eb598b0edc441f, type: 3}
   patternType: 0
-  AnimationState: 4
+  AnimationState: 5
   Debuff: 
