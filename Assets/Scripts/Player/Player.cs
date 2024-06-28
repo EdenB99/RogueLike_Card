@@ -6,7 +6,8 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     //------------------------------------------------------------------------------------------
-    //플레이어 스탯 요소    
+    //플레이어 스탯 요소
+    public int Maxhealth = 10;
     private int health;
     public int Health
     {
@@ -27,7 +28,7 @@ public class Player : MonoBehaviour
     Action OnPlayerDie;
 
 
-    private int armor;
+    private int armor = 0;
     public int Armor
     {
         get => armor;
@@ -46,6 +47,7 @@ public class Player : MonoBehaviour
     }
     Action<int> OnArmorBreak;
 
+    public int maxEnergy = 3;
 
     private int energy;
     public int Energy
@@ -59,6 +61,7 @@ public class Player : MonoBehaviour
     }
     Action<int> OnEnergyChange;
 
+    public int AdditionalDamage;
 
     //-------------------------------------------------------------------------------
     //덱 및 카드 요소

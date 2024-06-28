@@ -14,12 +14,20 @@ public class EnemyPanel : MonoBehaviour, IDropHandler
             {
                 UseCard(card);
             }
+            else
+            {
+                DragAndDrop dd = eventData.pointerDrag.GetComponent<DragAndDrop>();
+                if (dd != null)
+                {
+                    dd.PositionReSet();
+                }
+            }
         }
     }
 
     private void UseCard(Card card)
     {
-        Debug.Log("Enemy 사용 카드: " + card.cardData.name);
+        Debug.Log("Enemy 사용 카드: " + card.CardData.name);
         //  카드 사용 효과 구현 하는 곳
         Destroy(card.gameObject); // 카드 오브젝트 제거, 카드 오브젝트 풀 구현
     }

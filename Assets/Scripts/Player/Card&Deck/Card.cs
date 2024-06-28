@@ -8,7 +8,17 @@ using UnityEngine.UI;
 
 public class Card : MonoBehaviour
 {
-    public CardData cardData;
+    [SerializeField]
+    private CardData cardData;
+    public CardData CardData
+    {
+        get => cardData;
+        set
+        {
+            cardData = value;
+            UpdateCard();
+        }
+    }
 
     TextMeshProUGUI nameText;
     Image CardImage;
@@ -30,19 +40,14 @@ public class Card : MonoBehaviour
     {
         UpdateCard();
     }
-    public void SetCardData(CardData newCardData)
-    {
-        cardData = newCardData;
-        UpdateCard();
-    }
     private void UpdateCard()
     {
-        if (cardData != null)
+        if (CardData != null)
         {
-            nameText.text = cardData.Name;
-            descriptionText.text = cardData.Decription;
-            costText.text = cardData.Cost.ToString();
-            CardImage.sprite = cardData.Image;
+            nameText.text = CardData.Name;
+            descriptionText.text = CardData.Decription;
+            costText.text = CardData.Cost.ToString();
+            CardImage.sprite = CardData.Image;
         } else
         {
             nameText.text = null;

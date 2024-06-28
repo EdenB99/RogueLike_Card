@@ -44,6 +44,24 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test3"",
+                    ""type"": ""Button"",
+                    ""id"": ""d5936e16-47f8-4700-a8a4-f9571b04495f"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Test4"",
+                    ""type"": ""Button"",
+                    ""id"": ""133fb7e2-ac51-40f4-9c42-7836879992ae"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -66,6 +84,28 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": ""New control scheme"",
                     ""action"": ""Test2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cb24fa4c-ef67-4630-9f1c-f035110fe608"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test3"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""383c270c-a6db-41a7-b76d-a24175d87358"",
+                    ""path"": ""<Keyboard>/4"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Test4"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -95,6 +135,8 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
         m_Test = asset.FindActionMap("Test", throwIfNotFound: true);
         m_Test_Test1 = m_Test.FindAction("Test1", throwIfNotFound: true);
         m_Test_Test2 = m_Test.FindAction("Test2", throwIfNotFound: true);
+        m_Test_Test3 = m_Test.FindAction("Test3", throwIfNotFound: true);
+        m_Test_Test4 = m_Test.FindAction("Test4", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -158,12 +200,16 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
     private List<ITestActions> m_TestActionsCallbackInterfaces = new List<ITestActions>();
     private readonly InputAction m_Test_Test1;
     private readonly InputAction m_Test_Test2;
+    private readonly InputAction m_Test_Test3;
+    private readonly InputAction m_Test_Test4;
     public struct TestActions
     {
         private @TestInput m_Wrapper;
         public TestActions(@TestInput wrapper) { m_Wrapper = wrapper; }
         public InputAction @Test1 => m_Wrapper.m_Test_Test1;
         public InputAction @Test2 => m_Wrapper.m_Test_Test2;
+        public InputAction @Test3 => m_Wrapper.m_Test_Test3;
+        public InputAction @Test4 => m_Wrapper.m_Test_Test4;
         public InputActionMap Get() { return m_Wrapper.m_Test; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -179,6 +225,12 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
             @Test2.started += instance.OnTest2;
             @Test2.performed += instance.OnTest2;
             @Test2.canceled += instance.OnTest2;
+            @Test3.started += instance.OnTest3;
+            @Test3.performed += instance.OnTest3;
+            @Test3.canceled += instance.OnTest3;
+            @Test4.started += instance.OnTest4;
+            @Test4.performed += instance.OnTest4;
+            @Test4.canceled += instance.OnTest4;
         }
 
         private void UnregisterCallbacks(ITestActions instance)
@@ -189,6 +241,12 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
             @Test2.started -= instance.OnTest2;
             @Test2.performed -= instance.OnTest2;
             @Test2.canceled -= instance.OnTest2;
+            @Test3.started -= instance.OnTest3;
+            @Test3.performed -= instance.OnTest3;
+            @Test3.canceled -= instance.OnTest3;
+            @Test4.started -= instance.OnTest4;
+            @Test4.performed -= instance.OnTest4;
+            @Test4.canceled -= instance.OnTest4;
         }
 
         public void RemoveCallbacks(ITestActions instance)
@@ -219,5 +277,7 @@ public partial class @TestInput: IInputActionCollection2, IDisposable
     {
         void OnTest1(InputAction.CallbackContext context);
         void OnTest2(InputAction.CallbackContext context);
+        void OnTest3(InputAction.CallbackContext context);
+        void OnTest4(InputAction.CallbackContext context);
     }
 }

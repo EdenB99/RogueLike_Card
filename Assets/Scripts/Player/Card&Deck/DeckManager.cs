@@ -1,31 +1,42 @@
-using System.Collections;
+using System;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.XR;
+using Random = UnityEngine.Random;
 
-public class Deck : MonoBehaviour
+public class DeckManager : MonoBehaviour
 {
     //덱 내부 요소
 
     public List<CardData> Allcards = new List<CardData>();
+    [SerializeField]
     private List<CardData> DrawPile;
+    [SerializeField]
     private List<CardData> DiscardPile;
-    private List<CardData> Hand;
+    [SerializeField]
+    private List<CardData> hand;
+    public List<CardData> Hand
+    {
+        get => hand;
+        set
+        {
+            hand = value;
+            HandCountChange(hand.Count);
+        }
+    }
+    public Action<int> HandCountChange;
 
     /// <summary>
     /// 최대 핸드 개수
     /// </summary>
-    private const int MaxHandSize = 10;
+    public int MaxHandSize = 5;
 
     Player player;
 
     private void Start()
     {
-        DrawPile = new List<CardData>(Allcards);
+        DrawPile = new List<CardData>();
         DiscardPile = new List<CardData>();
-        Hand = new List<CardData>();
-        Shuffle(DrawPile);
+        hand = new List<CardData>();
         player = GameManager.Instance.Player;
     }
 
@@ -33,6 +44,18 @@ public class Deck : MonoBehaviour
 
     //----------------------------------------------------------------------------------------------------
     //덱 상호작용 함수
+    public void InitializeDeck()
+    {
+        DrawPile.Clear();
+        DrawPile.AddRange(Allcards);
+        Shuffle(DrawPile);
+        DiscardPile.Clear();
+        Hand.Clear();
+        for (int i = 0; i<MaxHandSize; i++)
+        {
+            DrawCard();
+        }
+    }
 
 
     /// <summary>
@@ -53,11 +76,17 @@ public class Deck : MonoBehaviour
     /// <summary>
     /// 뽑을 더미에 버려진 더미를 추가후 덱을 섞는 함수
     /// </summary>
-    public void Reshuffle()
+    public bool Reshuffle()
     {
-        DrawPile.AddRange(DiscardPile);
-        DiscardPile.Clear();
-        Shuffle(DrawPile);
+        if (DiscardPile.Count != 0)
+        {
+            DrawPile.AddRange(DiscardPile);
+            DiscardPile.Clear();
+            Shuffle(DrawPile);
+            return true;
+        }
+        else Debug.Log("버린 카드더미에 카드가 없습니다."); return false;
+
     }
 
     /// <summary>
@@ -66,9 +95,9 @@ public class Deck : MonoBehaviour
     /// <returns>뽑은 카드</returns>
     public CardData DrawCard()
     {
-        if (Hand.Count >= MaxHandSize)
+        if (hand.Count >= MaxHandSize)
         {
-            Debug.Log("Hand is full.");
+            Debug.Log("hand is full.");
             CardData DisCard = DrawPile[0];
             DrawPile.RemoveAt(0); //뽑을 더미에서 제거
             DiscardPile.Add(DisCard); //버릴 카드에 추가
@@ -77,7 +106,10 @@ public class Deck : MonoBehaviour
         }
         if (DrawPile.Count == 0) //뽑을 더미에 카드가 없으면 덱을 섞음
         {
-            Reshuffle();
+            if (!Reshuffle()) //버린 카드와 뽑을 카드를 서로 섞되 버린 카드에도 카드가 없으면
+            {
+                Debug.Log("양 카드 더미에 카드가 없습니다.");
+            }
         }
         if (DrawPile.Count == 0) //섞은 후에도 뽑을 카드가 없으면 null 반환
         {
@@ -85,7 +117,7 @@ public class Deck : MonoBehaviour
         }
         CardData drawnCard = DrawPile[0];
         DrawPile.RemoveAt(0); //뽑을 더미에서 제거
-        Hand.Add(drawnCard); //핸드 더미에 추가
+        hand.Add(drawnCard); //핸드 더미에 추가
         return drawnCard; //뽑은 카드 반환
     }
 
@@ -95,9 +127,9 @@ public class Deck : MonoBehaviour
     /// <param name="card">버릴 카드</param>
     public CardData DiscardCard(CardData card)
     {
-        if (Hand.Contains(card))
+        if (hand.Contains(card))
         {
-            Hand.Remove(card);
+            hand.Remove(card);
             DiscardPile.Add(card);
             return card;
         }
@@ -105,18 +137,18 @@ public class Deck : MonoBehaviour
     }
 
     /// <summary>
-    /// 호출된 카드를 덱에서 사용
+    /// 호출된 카드를 핸드에서 사용
     /// </summary>
     /// <param name="card">사용할 카드</param>
     /// <param name="enemy">선택된 적 개체</param>
     public void PlayCard(CardData card, Enemy enemy)
     {
-        if (Hand.Contains(card)) //핸드 더미에 해당 카드가 존재하는지 확인
+        if (hand.Contains(card)) //핸드 더미에 해당 카드가 존재하는지 확인
         {
             if (player.Energy >= card.Cost)
             {
                 player.Energy -= card.Cost;
-                Hand.Remove(card);
+                hand.Remove(card);
 
                 //카드 종류에 따라 조건문 추가필요 *소멸 같은 키워드
                 DiscardPile.Add(card);
@@ -132,6 +164,6 @@ public class Deck : MonoBehaviour
     {
         Debug.Log("Draw Pile: " + DrawPile.Count);
         Debug.Log("Discard Pile: " + DiscardPile.Count);
-        Debug.Log("Hand: " + Hand.Count);
+        Debug.Log("hand: " + hand.Count);
     }
 }

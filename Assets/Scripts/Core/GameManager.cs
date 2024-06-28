@@ -6,18 +6,25 @@ using UnityEngine.InputSystem;
 
 public class GameManager : Singleton<GameManager>
 {
+    //카드 사용효과를 패널-> 덱->카드순으로 구현
+    //카드 오브젝트 풀 구현
+    //
     Player player;
     public Player Player => player;
 
+    DeckManager deck;
 
-    List<Enemy> enemies;
-
+    public DeckManager Deck => deck;
+    
+    public List<Enemy> enemies;
+    
 
 
     protected override void OnInitialize()
     {
         player = FindAnyObjectByType<Player>();
         enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
+        deck = GetComponent<DeckManager>();    
     }
 
     //------------------------------------------------------------------------------------------
@@ -40,6 +47,10 @@ public class GameManager : Singleton<GameManager>
     public void StartBattle()
     {
         turn = 0;
+        player.Health = player.Maxhealth;
+        Deck.InitializeDeck();
+        enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
+        TurnStart();
     }
     public void EndBattle()
     {
@@ -47,15 +58,38 @@ public class GameManager : Singleton<GameManager>
     }
     public void TurnStart()
     {
+        Turn++;
+        for (int i = 0; Deck.MaxHandSize > Deck.Hand.Count; i++) //최대 핸드 수만큼 카드를 버림
+        {
+            Deck.DrawCard();
+        }
+        player.Energy = player.maxEnergy;
         OnTurnStart?.Invoke();
     }
     public void TurnEnd() 
     {
+        foreach(CardData cardData in Deck.Hand) //현재 핸드에 있는 카드수만큼 버림
+        {
+            Deck.DiscardCard(cardData);
+        }
         OnTurnEnd?.Invoke();
     }
     //------------------------------------------------------------------------------------------
+    //카드 오브젝트 생성 요소
+
+
+
+
+
+
+
+    //------------------------------------------------------------------------------------------
     //테스트 요소
     TestInput TestInput;
+
+
+
+
     //------------------------------------------------------------------------------------------
     //생명 주기
     
@@ -66,9 +100,16 @@ public class GameManager : Singleton<GameManager>
         TestInput.Test.Enable();
         TestInput.Test.Test1.performed += OnTest1;
         TestInput.Test.Test2.performed += ONTest2;
+        TestInput.Test.Test3.performed += OnTest3;
+        TestInput.Test.Test4.performed += OnTest4;
     }
+
+ 
+
     private void OnDisable()
     {
+        TestInput.Test.Test4.performed -= OnTest4;
+        TestInput.Test.Test3.performed -= OnTest3;
         TestInput.Test.Test2.performed -= ONTest2;
         TestInput.Test.Test1.performed -= OnTest1;
         TestInput.Test.Disable();
@@ -78,7 +119,7 @@ public class GameManager : Singleton<GameManager>
         TestInput = new TestInput();
         OnInitialize();
     }
-
+    
 
     private void OnTest1(InputAction.CallbackContext context)
     {
@@ -88,5 +129,15 @@ public class GameManager : Singleton<GameManager>
     {
         TurnEnd();
     }
+    private void OnTest3(InputAction.CallbackContext context)
+    {
+        StartBattle();
+    }
+
+    private void OnTest4(InputAction.CallbackContext context)
+    {
+        EndBattle();
+    }
+
 
 }

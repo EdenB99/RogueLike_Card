@@ -19,7 +19,7 @@ public enum CardType: byte
 
 
 
-[CreateAssetMenu(fileName = "NewCard", menuName = "Card Game/Card", order = 0)]
+
 public class CardData : ScriptableObject
 {
     public string Name;
@@ -28,5 +28,14 @@ public class CardData : ScriptableObject
     public CardRarity Rarity;
     public CardType Type;
     public Sprite Image;
+
+    public virtual bool PlayCard()
+    {
+        return false;
+    }
+    public virtual bool PlayCard(Enemy enemy)
+    {
+        return false;
+    }
    
 }

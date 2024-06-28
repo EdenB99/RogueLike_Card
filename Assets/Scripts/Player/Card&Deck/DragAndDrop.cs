@@ -56,6 +56,10 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             }
         }
     }
+    public void PositionReSet()
+    {
+        rectTransform.anchoredPosition = originalPosition;
+    }
     public void OnPointerEnter(PointerEventData eventData)
     {
         if (!isDragging)
