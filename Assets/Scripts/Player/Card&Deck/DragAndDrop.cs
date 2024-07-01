@@ -52,13 +52,14 @@ public class DragAndDrop : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndD
             } 
             else
             {
-                rectTransform.anchoredPosition = originalPosition;
+                PositionReSet();
             }
         }
+        else PositionReSet();
     }
     public void PositionReSet()
     {
-        rectTransform.anchoredPosition = originalPosition;
+        rectTransform.localPosition = originalPosition;
     }
     public void OnPointerEnter(PointerEventData eventData)
     {

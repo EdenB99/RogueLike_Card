@@ -22,13 +22,11 @@ public class CardData_Attack : CardData
                 {
                     indexEnemy.Health -= AttackValue + player.AdditionalDamage;
                 }
-                return true;
             } else //전체공격이 아니면 대상 적에게만 피해
             {
                 enemy.Health -= AttackValue+ player.AdditionalDamage;
-                return true;
             }
         }
-        return false;
+        return true;
     }
 }

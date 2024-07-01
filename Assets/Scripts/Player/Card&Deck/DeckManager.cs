@@ -20,10 +20,10 @@ public class DeckManager : MonoBehaviour
         set
         {
             hand = value;
-            HandCountChange(hand.Count);
+            HandChange(hand);
         }
     }
-    public Action<int> HandCountChange;
+    public Action<List<CardData>> HandChange;
 
     /// <summary>
     /// 최대 핸드 개수

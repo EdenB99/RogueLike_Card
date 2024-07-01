@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     //------------------------------------------------------------------------------------------
     //플레이어 스탯 요소
     public int Maxhealth = 10;
+    [SerializeField]
     private int health;
     public int Health
     {
@@ -59,7 +60,7 @@ public class Player : MonoBehaviour
             OnEnergyChange?.Invoke(energy);
         }
     }
-    Action<int> OnEnergyChange;
+    public Action<int> OnEnergyChange;
 
     public int AdditionalDamage;
 

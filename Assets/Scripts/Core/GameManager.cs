@@ -23,6 +23,10 @@ public class GameManager : Singleton<GameManager>
     protected override void OnInitialize()
     {
         player = FindAnyObjectByType<Player>();
+        if (player != null )
+        {
+            Debug.Log("Player get");
+        }
         enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
         deck = GetComponent<DeckManager>();    
     }
@@ -46,9 +50,11 @@ public class GameManager : Singleton<GameManager>
    
     public void StartBattle()
     {
-        turn = 0;
+        
         player.Health = player.Maxhealth;
+
         Deck.InitializeDeck();
+        turn = 0;
         enemies = new List<Enemy>(FindObjectsOfType<Enemy>());
         TurnStart();
     }
@@ -59,9 +65,14 @@ public class GameManager : Singleton<GameManager>
     public void TurnStart()
     {
         Turn++;
-        for (int i = 0; Deck.MaxHandSize > Deck.Hand.Count; i++) //최대 핸드 수만큼 카드를 버림
+        while (Deck.Hand.Count < Deck.MaxHandSize)
         {
-            Deck.DrawCard();
+            CardData drawnCard = Deck.DrawCard();
+            if (drawnCard == null)
+            {
+                Debug.Log("No more cards to draw or hand is full.");
+                break; // 드로우 실패 시 루프 탈출
+            }
         }
         player.Energy = player.maxEnergy;
         OnTurnStart?.Invoke();
@@ -99,7 +110,7 @@ public class GameManager : Singleton<GameManager>
         TestInput = new TestInput();
         TestInput.Test.Enable();
         TestInput.Test.Test1.performed += OnTest1;
-        TestInput.Test.Test2.performed += ONTest2;
+        TestInput.Test.Test2.performed += OnTest2;
         TestInput.Test.Test3.performed += OnTest3;
         TestInput.Test.Test4.performed += OnTest4;
     }
@@ -110,14 +121,18 @@ public class GameManager : Singleton<GameManager>
     {
         TestInput.Test.Test4.performed -= OnTest4;
         TestInput.Test.Test3.performed -= OnTest3;
-        TestInput.Test.Test2.performed -= ONTest2;
+        TestInput.Test.Test2.performed -= OnTest2;
         TestInput.Test.Test1.performed -= OnTest1;
         TestInput.Test.Disable();
     }
-    private void Start()
+    private void Awake()
     {
         TestInput = new TestInput();
         OnInitialize();
+    }
+    private void Start()
+    {
+        
     }
     
 
@@ -125,7 +140,7 @@ public class GameManager : Singleton<GameManager>
     {
         TurnStart();
     }
-    private void ONTest2(InputAction.CallbackContext context)
+    private void OnTest2(InputAction.CallbackContext context)
     {
         TurnEnd();
     }
