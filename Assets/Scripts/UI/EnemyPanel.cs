@@ -5,6 +5,11 @@ using UnityEngine.EventSystems;
 
 public class EnemyPanel : MonoBehaviour, IDropHandler
 {
+    DeckManager deck;
+    private void Start()
+    {
+        deck = GameManager.Instance.Deck;
+    }
     public void OnDrop(PointerEventData eventData)
     {
         if (eventData.pointerDrag != null)
@@ -26,9 +31,10 @@ public class EnemyPanel : MonoBehaviour, IDropHandler
     }
 
     private void UseCard(Card card)
-    {
-        Debug.Log("Enemy 사용 카드: " + card.CardData.name);
-        //  카드 사용 효과 구현 하는 곳
-        Destroy(card.gameObject); // 카드 오브젝트 제거, 카드 오브젝트 풀 구현
+    {   
+        deck.PlayCard(card, GameManager.Instance.enemies[0]);
+        //card.CardData.PlayCard(GameManager.Instance.enemies[0]); //리스트에서 첫번째 적에게 피해
+        // 카드 오브젝트 제거, 카드 오브젝트 풀 구현
     }
+    
 }

@@ -25,7 +25,7 @@ public class Card : MonoBehaviour
     TextMeshProUGUI descriptionText;
     Image CostBackGround;
     TextMeshProUGUI costText;
-    
+    DragAndDrop DragAndDrop;
     
 
     private void Awake()
@@ -35,6 +35,7 @@ public class Card : MonoBehaviour
         descriptionText = transform.GetChild(2).GetComponent<TextMeshProUGUI>();
         CostBackGround = transform.GetChild(3).GetComponent<Image>();
         costText = CostBackGround.GetComponentInChildren<TextMeshProUGUI>();
+        DragAndDrop = GetComponent<DragAndDrop>();
     }
     private void Start()
     {
@@ -55,5 +56,9 @@ public class Card : MonoBehaviour
             costText.text = null;
             CostBackGround.sprite = null;
         }
+    }
+    public void ResetPosition()
+    {
+        DragAndDrop.PositionReSet();
     }
 }

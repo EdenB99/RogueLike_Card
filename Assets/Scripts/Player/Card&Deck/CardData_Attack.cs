@@ -12,6 +12,7 @@ public class CardData_Attack : CardData
 
    public override bool PlayCard(Enemy enemy)
     {
+        Debug.Log("Attack");
         Player player = GameManager.Instance.Player;
         for (int i = 0; i < AttackCount; i++) //공격횟수만큼
         {
@@ -24,6 +25,7 @@ public class CardData_Attack : CardData
                 }
             } else //전체공격이 아니면 대상 적에게만 피해
             {
+                Debug.Log($"Deal {AttackValue} to {enemy}");
                 enemy.Health -= AttackValue+ player.AdditionalDamage;
             }
         }

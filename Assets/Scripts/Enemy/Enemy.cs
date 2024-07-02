@@ -11,6 +11,9 @@ public class Enemy : MonoBehaviour
 {
     //------------------------------------------------------------------------------------------
     //적 스탯 요소
+
+    public int Maxhealth = 30;
+    [SerializeField]
     private int health;
     public int Health
     {
@@ -21,10 +24,30 @@ public class Enemy : MonoBehaviour
             if (health <= 0)
             {
                 health = 0;
-                Die();
+                DeathCoroutine();
             }
+            else StartCoroutine(HitCoroutine());
         }
     }
+
+
+    private IEnumerator HitCoroutine()
+    {
+        State = EnemyAnimationState.Hit;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(stateInfo.length);
+        State = EnemyAnimationState.Idle;
+    }
+
+    private IEnumerator DeathCoroutine()
+    {
+        State = EnemyAnimationState.Death;
+        AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
+        yield return new WaitForSeconds(stateInfo.length);
+        Destroy(gameObject);
+    }
+
+
     private int armor;
     public int Armor
     {
@@ -146,9 +169,11 @@ public class Enemy : MonoBehaviour
         Vector3 AttackPosition = player.transform.position + new Vector3(0.6f, 0.0f, 0.0f);
         float moveDuration = 0.5f;
         yield return StartCoroutine(MoveToPosition(AttackPosition, moveDuration)); //플레이어 앞으로 이동
+
         yield return StartCoroutine(PatternObject.FadeOutEffect());
         State = CurrentPattern.AnimationState; //패턴 애니메이션 실행
         yield return new WaitForSeconds(0.1f);
+
         AnimatorStateInfo stateInfo = animator.GetCurrentAnimatorStateInfo(0);
         CurrentPattern.Execute(this);
         yield return new WaitForSeconds(stateInfo.length);
@@ -198,12 +223,10 @@ public class Enemy : MonoBehaviour
         OnArmorBreak += (leftDamage) => Health -= leftDamage;
         GameManager.Instance.OnTurnStart += SetPattern;
         GameManager.Instance.OnTurnEnd += ExcutePattern;
-    }
-    private void Die()
-    {
-        // 적 사망 처리
-    }
 
+        health = Maxhealth;
+    }
+    
     public void PerformAction(Player player)
     {
         // 적의 행동 로직

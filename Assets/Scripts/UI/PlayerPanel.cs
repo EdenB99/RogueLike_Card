@@ -4,6 +4,11 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 public class PlayerPanel : MonoBehaviour, IDropHandler
 {
+    DeckManager deck;
+    private void Start()
+    {
+        deck = GameManager.Instance.Deck;
+    }
 
     public void OnDrop(PointerEventData eventData)
     {
@@ -28,8 +33,7 @@ public class PlayerPanel : MonoBehaviour, IDropHandler
     private void UseCard(Card card)
     {
         Debug.Log("Player 사용 카드: " + card.CardData.name);
-        card.CardData.PlayCard();
-        //  카드 사용 효과 구현 하는 곳
-        Destroy(card.gameObject); // 카드 오브젝트 제거, 카드 오브젝트 풀 구현
+        deck.PlayCard(card);
+        
     }
 }

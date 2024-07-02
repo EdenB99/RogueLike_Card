@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
     Action<int> OnHealthChange;
     Action OnPlayerDie;
 
-
+    [SerializeField]
     private int armor = 0;
     public int Armor
     {
@@ -49,8 +49,9 @@ public class Player : MonoBehaviour
     Action<int> OnArmorBreak;
 
     public int maxEnergy = 3;
-
+    [SerializeField]
     private int energy;
+
     public int Energy
     {
         get => energy;

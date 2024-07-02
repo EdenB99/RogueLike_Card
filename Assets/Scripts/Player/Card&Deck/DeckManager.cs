@@ -122,7 +122,7 @@ public class DeckManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 카드를 버리는 함수
+    /// 핸드에서 카드를 버리는 함수
     /// </summary>
     /// <param name="card">버릴 카드</param>
     public CardData DiscardCard(CardData card)
@@ -137,26 +137,69 @@ public class DeckManager : MonoBehaviour
     }
 
     /// <summary>
-    /// 호출된 카드를 핸드에서 사용
+    /// 호출된 카드를 핸드에서 적에게 사용
     /// </summary>
     /// <param name="card">사용할 카드</param>
     /// <param name="enemy">선택된 적 개체</param>
-    public void PlayCard(CardData card, Enemy enemy)
+    public void PlayCard(Card card, Enemy enemy)
     {
-        if (hand.Contains(card)) //핸드 더미에 해당 카드가 존재하는지 확인
+        CardData cardData = card.CardData;
+        if (hand.Contains(cardData)) //핸드 더미에 해당 카드가 존재하는지 확인
         {
-            if (player.Energy >= card.Cost)
+            if (player.Energy >= cardData.Cost)
             {
-                player.Energy -= card.Cost;
-                hand.Remove(card);
-
-                //카드 종류에 따라 조건문 추가필요 *소멸 같은 키워드
-                DiscardPile.Add(card);
-                //카드의 기능을 실행해야 함 !!!!!
+                if (cardData.PlayCard(enemy))
+                {
+                    player.Energy -= cardData.Cost;
+                    hand.Remove(cardData);
+                    DiscardPile.Add(cardData);
+                    Destroy(card.gameObject);
+                }
+                else
+                {
+                    Debug.Log("잘못된 사용 패널");
+                    card.ResetPosition();
+                }
+            } else
+            {
+                Debug.Log("Cost가 부족");
+                card.ResetPosition();
             }
         }
     }
-    
+    /// <summary>
+    /// 호출된 카드를 핸드에서 플레이어에게 사용
+    /// </summary>
+    /// <param name="card"></param>
+    public void PlayCard(Card card)
+    {
+        CardData cardData = card.CardData;
+        if (hand.Contains(cardData)) //핸드 더미에 해당 카드가 존재하는지 확인
+        {
+            if (player.Energy >= cardData.Cost)
+            {
+                if (cardData.PlayCard())
+                {
+                    player.Energy -= cardData.Cost;
+                    hand.Remove(cardData);
+                    DiscardPile.Add(cardData);
+                    Destroy(card.gameObject);
+                }
+                else
+                {
+                    Debug.Log("잘못된 사용 패널");
+                    card.ResetPosition();
+                }
+
+            }
+            else
+            {
+                Debug.Log("Cost가 부족");
+                card.ResetPosition();
+            }
+        }
+    }
+
     /// <summary>
     /// 현재 덱 상황을 디버그로 송출
     /// </summary>
